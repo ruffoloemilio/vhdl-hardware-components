@@ -1,22 +1,30 @@
-# Custom Mini-ALU (VHDL)
+# Mini-ALU 16-bit (VHDL)
 
 ![Language](https://img.shields.io/badge/Language-VHDL-blue.svg)
-![EDA Tool](https://img.shields.io/badge/Simulation-ModelSim-orange.svg)
+![Architecture](https://img.shields.io/badge/Architecture-16--bit-red.svg)
 
-## Panoramica
-Questo modulo contiene la progettazione, l'implementazione a livello RTL (Register-Transfer Level) e la simulazione di una Mini-ALU (Arithmetic Logic Unit) scritta interamente in VHDL.
+## Descrizione del Progetto
+Il progetto riguarda la progettazione e implementazione di una **Mini-ALU a 16 bit** ottimizzata per l'esecuzione di operazioni aritmetico-logiche fondamentali. L'architettura è suddivisa in due blocchi principali:
+* **Control Unit:** Gestisce la logica di controllo e la decodifica dell'opcode.
+* **Datapath:** Esegue il calcolo effettivo sui dati in ingresso (A e B).
 
-Il progetto si concentra sul design di circuiti logici combinatori, sull'ottimizzazione del datapath e sulla gestione precisa dei flag di stato in uscita (es. Carry, Zero, Overflow) in base alle operazioni eseguite.
+## Specifiche Tecniche e Set di Istruzioni
+L'unità elabora operandi a 16 bit e genera un risultato a 16 bit accompagnato dai flag di stato (**C, V, Z, N**). La selezione dell'operazione avviene tramite un segnale di controllo a 3 bit (Opcode) secondo la seguente logica:
 
-## Architettura e Set di Istruzioni
-La ALU è progettata per elaborare operandi a **8-bit**. La selezione dell'operazione da eseguire sul Datapath è gestita tramite il segnale di controllo `Ctrl`, a cui corrispondono le seguenti elaborazioni:
+| Opcode | Operazione | Descrizione |
+|:---:|:---:|:---|
+| `000` | **ADD** | Addizione aritmetica (A + B) |
+| `001` | **SUB** | Sottrazione aritmetica (A - B) |
+| `010` | **AND** | And logico bit-a-bit |
+| `011` | **OR** | Or logico bit-a-bit |
+| `100` | **XOR** | Xor logico bit-a-bit |
+| `101` | **NOT** | Complemento logico di A |
+| `110` | **PASS A**| Trasferimento del dato A in uscita |
+| `111` | **PASS B**| Trasferimento del dato B in uscita |
 
-* **Operazioni Aritmetiche:** Addizione, Sottrazione
-* **Operazioni Logiche:** AND, OR, XOR, NOT
+## Implementazione e Simulazione
+Il design è stato validato tramite simulazioni funzionali per verificare la corretta gestione del **riporto (Carry)** e dell'**overflow** in aritmetica a complemento a due. La gerarchia dei file garantisce una sintesi efficiente dei componenti logici (Mux, Adder, Unità Logica).
 
-
-## Struttura del Progetto
-```text
-mini-alu/
- ├── src/          #File sorgenti VHDL
- ├── tb/           #Testbench per la validazione
+## Documentazione
+Per il dettaglio degli schemi a blocchi, delle tabelle di verità e dei diagrammi temporali:
+👉 **[Relazione Tecnica - Mini ALU (PDF)](./docs/mini-alu.pdf)**
