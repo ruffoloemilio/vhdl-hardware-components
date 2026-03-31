@@ -1,24 +1,21 @@
-# Sommatore CLA 16-bit (VHDL)
+# Carry Lookahead Adder (CLA) 16-bit
 
 ![Language](https://img.shields.io/badge/Language-VHDL-blue.svg)
-![EDA Tool](https://img.shields.io/badge/Simulation-ModelSim-orange.svg)
+![Target](https://img.shields.io/badge/Performance-High_Speed-green.svg)
 
 ## Panoramica
-Questo modulo presenta la progettazione a livello RTL (Register-Transfer Level) e la simulazione di un **Sommatore Carry-Lookahead (CLA) a 16-bit** implementato in VHDL.
+Questo repository contiene l'implementazione in VHDL di un **Sommatore a 16 bit con anticipo del riporto (Carry Lookahead)**. A differenza dei comuni sommatori Ripple Carry (RCA), questa architettura riduce drasticamente il tempo di calcolo rendendo la generazione del riporto indipendente dalla propagazione seriale.
 
-L'obiettivo principale del progetto, come documentato nella relazione tecnica, è l'ottimizzazione del ritardo di propagazione del riporto (carry) tipico dei classici sommatori Ripple Carry (RCA). L'architettura anticipa il calcolo dei riporti sfruttando reti logiche combinatorie parallele.
+## Logica di Progettazione
+Il sommatore sfrutta due segnali intermedi per ogni stadio:
+* **Generate ($G_i$):** $G_i = A_i \cdot B_i$ (il bit genera un riporto).
+* **Propagate ($P_i$):** $P_i = A_i \oplus B_i$ (il bit propaga un riporto entrante).
 
-## Architettura Hardware
-Il circuito opera su due stringhe in ingresso da **16-bit** e genera una somma a 16-bit più un eventuale `Carry Out`. 
-La struttura interna si basa sui segnali fondamentali di:
-* **Generate (G):** Indica se un bit specifico genera un riporto indipendente dai bit precedenti.
-* **Propagate (P):** Indica se un bit specifico propaga il riporto in ingresso al bit successivo.
+L'architettura è strutturata gerarchicamente in **4 blocchi da 4 bit**, coordinati da un'unità di gestione del riporto (Carry Lookahead Unit) che calcola i riporti per i blocchi successivi in parallelo, minimizzando il cammino critico.
 
-L'architettura è stata progettata in modo gerarchico e modulare, assemblando blocchi di ordine inferiore (es. sommatori a 4-bit con logica lookahead locale) per comporre la struttura finale a 16-bit.
+## Analisi delle Prestazioni
+Come evidenziato nella relazione tecnica, l'uso del CLA permette di abbattere il ritardo di propagazione da $O(n)$ a $O(\log n)$, rendendo il componente ideale per unità di calcolo ad alta frequenza.
 
-
-## Struttura del Progetto
-```text
-cla-16bit/
- ├── src/          # File sorgenti VHDL
- ├── tb/           # File di Testbench per la validazione temporale e logica
+## Documentazione
+Dettagli sulle equazioni booleane e sulla sintesi hardware:
+👉 **[Relazione Sommatore 16 bit (PDF)](./docs/relazione_sommatore_16bit.pdf)**
